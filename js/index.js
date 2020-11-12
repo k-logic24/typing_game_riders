@@ -1,7 +1,7 @@
 const riders = [
   {
-    'name': 'kuga',
-    'src': 'http://placehold.it/500x250/?text=kuga'
+    'name': 'kuuga',
+    'src': 'images/hero.png'
   },
   {
     'name': 'agito',
@@ -14,6 +14,7 @@ let gameState = {
   miss: 0,
   timer: 10
 }
+
 const intro = document.querySelector('.intro')
 const start = document.querySelector('.start')
 const finished = document.querySelector('.finished')
@@ -51,7 +52,6 @@ startBtn.addEventListener('click', () => {
   switchPhase('start')
   const countDown = setInterval(() => {
     gameState.timer--
-    console.log(gameState)
 
     if (gameState.timer === 0) {
       // 結果反映
@@ -59,13 +59,11 @@ startBtn.addEventListener('click', () => {
       miss.innerText = gameState.miss
       switchPhase('finished')
       clearInterval(countDown)
-      console.log(gameState)
     }
   }, 1000)
 })
 // reset
 resetBtn.addEventListener('click', () => {
-  // TODO: スマートじゃない
   gameState = {
     riderName: '',
     score: 0,
@@ -81,9 +79,10 @@ function typingAction(event) {
   const splitRiderName = gameState.riderName.split('')
   if (key === splitRiderName[0]) {
     gameState.score++
+    // riderNameの最初の文字を切り取り表示
     gameState.riderName = splitRiderName.slice(1).join('')
-    // textに注入
     nameArea.innerText = gameState.riderName
+    // タイピング終わったら初期化
     if (!gameState.riderName) {
       init()
     }

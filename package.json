@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "parcel index.html --open"
+    "start": "browser-sync start --server --files='./*.html, ./js/*.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^1.12.4"
+    "browser-sync": "^2.26.13"
   }
 }
