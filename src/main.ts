@@ -18,11 +18,11 @@ const imageArea = document.getElementById('riderImg') as HTMLImageElement
 
 class GameState {
   private readonly riders: RiderProps
-  protected selectedRiderName: RiderNameProps
-  protected selectedRiderImg: string
-  protected score: number = 0
-  protected miss: number = 0
-  protected limitTimer: number = 60
+  selectedRiderName: RiderNameProps
+  selectedRiderImg: string
+  score: number = 0
+  miss: number = 0
+  limitTimer: number = 60
 
   protected constructor(riders) {
     this.riders = riders
