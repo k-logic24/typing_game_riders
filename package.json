@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "webpack -w",
-    "start": "browser-sync start --server --files='./*.html, ./js/*.js'",
+    "start": "browser-sync start --server --files='./*.html, ./dist/*.js'",
     "dev": "run-p watch start"
   },
   "keywords": [],

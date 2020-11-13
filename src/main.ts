@@ -1,5 +1,9 @@
 import { riders } from  './constants'
 type RiderProps = typeof riders
+type RiderNameProps = {
+  ja: string
+  en: string
+}
 const intro = document.querySelector('.intro')
 const start = document.querySelector('.start')
 const finished = document.querySelector('.finished')
@@ -8,16 +12,17 @@ const miss = document.getElementById('miss')
 const timer = document.getElementById('timer')
 const startBtn = document.getElementById('start-btn')
 const resetBtn = document.getElementById('reset-btn')
-const nameArea = document.getElementById('riderName')
+const nameEn = document.getElementById('riderNameEn')
+const nameJp = document.getElementById('riderNameJp')
 const imageArea = document.getElementById('riderImg') as HTMLImageElement
 
 class GameState {
   private readonly riders: RiderProps
-  protected selectedRiderName = ''
-  protected selectedRiderImg = ''
-  protected score = 0
-  protected miss = 0
-  protected limitTimer = 10
+  protected selectedRiderName: RiderNameProps
+  protected selectedRiderImg: string
+  protected score: number = 0
+  protected miss: number = 0
+  protected limitTimer: number = 60
 
   protected constructor(riders) {
     this.riders = riders
@@ -28,7 +33,8 @@ class GameState {
   }
 
   protected printData() {
-    nameArea.innerText = this.selectedRiderName
+    nameEn.innerText = this.selectedRiderName.en
+    nameJp.innerText = this.selectedRiderName.ja
     imageArea.src = this.selectedRiderImg
   }
 
@@ -66,8 +72,9 @@ class GameAction extends GameState {
     }
   }
   init() {
-    const rnd = Math.floor(Math.random() * this.getRiders.length)
-    const selectRider = riders[rnd]
+    const copyRider = JSON.parse(JSON.stringify(this.getRiders))
+    const rnd = Math.floor(Math.random() * copyRider.length)
+    const selectRider = copyRider[rnd]
     this.selectedRiderName = selectRider.name
     this.selectedRiderImg = selectRider.src
     this.printData()
@@ -85,16 +92,14 @@ class GameAction extends GameState {
       }
     }, 1000)
   }
-  typing(key) {
-    const splitRiderName = this.selectedRiderName.split('')
+  typing(key: string) {
+    const splitRiderName = this.selectedRiderName.en.split('')
 
     if (key === splitRiderName[0]) {
       this.score++
-      // riderNameの最初の文字を切り取り表示
-      this.selectedRiderName = splitRiderName.slice(1).join('')
-      nameArea.innerText = this.selectedRiderName
-      // タイピング終わったら初期化
-      if (!this.selectedRiderName) {
+      this.selectedRiderName.en = splitRiderName.slice(1).join('')
+      nameEn.innerText = this.selectedRiderName.en
+      if (!this.selectedRiderName.en) {
         this.init()
       }
       return
@@ -104,28 +109,21 @@ class GameAction extends GameState {
   reset() {
     this.score = 0
     this.miss = 0
-    this.limitTimer = 10
+    this.limitTimer = 60
     this.init()
   }
 }
-
 const gameAction = GameAction.getInstance()
 gameAction.init()
+
 startBtn.addEventListener('click', () => {
-  // 初期化
-  gameAction.init()
-  // start
   gameAction.start()
-  // フェーズ変更
   GameAction.switchPhase('start')
 })
-// typing
 document.addEventListener('keypress',  function(event) {
   gameAction.typing(event.key)
 })
-// reset
 resetBtn.addEventListener('click', () => {
   gameAction.reset()
-  // フェーズ変更
   GameAction.switchPhase('restart')
 })

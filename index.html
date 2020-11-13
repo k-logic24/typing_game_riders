@@ -5,49 +5,51 @@
 	<meta name="viewport"
 	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Typing-Game</title>
+	<title>仮面ライダークウガ-タイピング</title>
 	<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-<header class="py-2 px-4 bg-blue-400">
-	<div class="text-white flex justify-between items-end">
-		<h1 class="text-2xl">TypingGame</h1>
-		<p>残り時間 <span id="timer"></span>秒</p>
-	</div>
-</header>
-<main class="py-20">
-	<div class="mx-auto container">
-		<div class="text-center intro">
-			<figure class="mb-8">
-				<img class="mx-auto" src="images/hero.png" alt="平成ライダー一覧画像">
-			</figure>
-			<button id="start-btn" class="bg-blue-400 text-white rounded font-bold px-4 py-2">ゲーム開始</button>
-		</div>
-		<div class="start hidden">
-			<figure>
-				<img id="riderImg" class="mx-auto" src="" alt="">
-			</figure>
-			<div class="mt-16 text-center">
-				<p id="riderName" class="mb-4 text-4xl"></p>
+<body class="h-screen">
+	<div class="flex flex-col justify-between h-full">
+		<header class="py-2 px-4 bg-blue-400">
+			<div class="text-white flex justify-between items-end">
+				<h1 class="text-2xl">Rider_Kuuga Typing</h1>
+				<p>残り時間 <span id="timer"></span>秒</p>
 			</div>
-		</div>
-		<div class="finished hidden">
-			<div class="text-center">
-				<p>
-					タイピング数: <span id="score"></span>
-				</p>
-				<p>
-					ミスタイプ: <span id="miss"></span>
-				</p>
-				<button id="reset-btn" class="bg-blue-400 text-white rounded font-bold px-4 py-2">もう一回</button>
+		</header>
+		<main class="py-20">
+			<div class="mx-auto container">
+				<div class="text-center intro">
+					<figure class="mb-8">
+						<img class="mx-auto" src="images/thumbsup.jpg" alt="thumbsup">
+					</figure>
+					<button id="start-btn" class="bg-blue-400 text-white rounded font-bold px-4 py-2">ゲーム開始</button>
+				</div>
+				<div class="start hidden">
+					<figure>
+						<img id="riderImg" class="mx-auto" src="" alt="">
+					</figure>
+					<div class="mt-16 text-center">
+						<span id="riderNameJp"></span>
+						<p id="riderNameEn" class="mb-4 text-4xl"></p>
+					</div>
+				</div>
+				<div class="finished hidden">
+					<div class="text-center">
+						<p>
+							タイピング数: <span id="score"></span>
+						</p>
+						<p>
+							ミスタイプ: <span id="miss"></span>
+						</p>
+						<button id="reset-btn" class="bg-blue-400 text-white rounded font-bold px-4 py-2 mt-4">もう一回</button>
+					</div>
+				</div>
 			</div>
-		</div>
+		</main>
+		<footer class="py-2 px-4 text-center bg-blue-400">
+			<small class="text-white">&copy;2020 iwata</small>
+		</footer>
 	</div>
-</main>
-<footer class="py-2 px-4 text-center bg-blue-400">
-	<small class="text-white">&copy;2020 iwata</small>
-</footer>
-<!--<script src="js/index.js"></script>-->
-<script type="module" src="dist/main.js"></script>
+	<script type="module" src="dist/main.js"></script>
 </body>
 </html>
