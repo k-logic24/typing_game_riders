@@ -1,29 +1,55 @@
+import { riders } from  './constants'
+type RiderProps = typeof riders
 const intro = document.querySelector('.intro')
 const start = document.querySelector('.start')
 const finished = document.querySelector('.finished')
 const score = document.getElementById('score')
 const miss = document.getElementById('miss')
+const timer = document.getElementById('timer')
 const startBtn = document.getElementById('start-btn')
 const resetBtn = document.getElementById('reset-btn')
 const nameArea = document.getElementById('riderName')
-const imageArea = document.getElementById('riderImg')
-const riders = [
-  {
-    'name': 'kuuga',
-    'src': 'images/hero.png'
-  },
-  {
-    'name': 'agito',
-    'src': 'http://placehold.it/500x250/?text=agito'
-  }
-]
-class GameState {
-  selectedRiderName = ''
-  selectedRiderImg = ''
-  score = 0
-  miss = 0
-  limitTimer = 10
+const imageArea = document.getElementById('riderImg') as HTMLImageElement
 
+class GameState {
+  private readonly riders: RiderProps
+  protected selectedRiderName = ''
+  protected selectedRiderImg = ''
+  protected score = 0
+  protected miss = 0
+  protected limitTimer = 10
+
+  protected constructor(riders) {
+    this.riders = riders
+  }
+
+  get getRiders() {
+    return this.riders
+  }
+
+  protected printData() {
+    nameArea.innerText = this.selectedRiderName
+    imageArea.src = this.selectedRiderImg
+  }
+
+  protected printTimer() {
+    timer.innerText = String(this.limitTimer)
+  }
+
+  protected printScore() {
+    score.innerText = String(this.score)
+    miss.innerText = String(this.miss)
+  }
+}
+
+class GameAction extends GameState {
+  private static instance: GameAction
+  static getInstance() {
+    if (!GameAction.instance) {
+      GameAction.instance = new GameAction(riders)
+    }
+    return GameAction.instance
+  }
   static switchPhase(phase) {
     switch (phase) {
       case 'start':
@@ -39,34 +65,23 @@ class GameState {
         intro.classList.remove('hidden')
     }
   }
-
-  printData() {
-    nameArea.innerText = this.selectedRiderName
-    imageArea.src = this.selectedRiderImg
-  }
-
-  printScore() {
-    score.innerText = this.score
-    miss.innerText = this.miss
-  }
-}
-
-class GameAction extends GameState {
   init() {
-    const rnd = Math.floor(Math.random() * riders.length)
+    const rnd = Math.floor(Math.random() * this.getRiders.length)
     const selectRider = riders[rnd]
     this.selectedRiderName = selectRider.name
     this.selectedRiderImg = selectRider.src
     this.printData()
+    this.printTimer()
   }
   start() {
     const countDown = setInterval(() => {
       this.limitTimer--
-
+      this.printTimer()
       if (!this.limitTimer) {
         this.printScore()
-        GameState.switchPhase('finished')
+        GameAction.switchPhase('finished')
         clearInterval(countDown)
+        return
       }
     }, 1000)
   }
@@ -87,7 +102,6 @@ class GameAction extends GameState {
     this.miss++
   }
   reset() {
-    this.riderName = ''
     this.score = 0
     this.miss = 0
     this.limitTimer = 10
@@ -95,13 +109,15 @@ class GameAction extends GameState {
   }
 }
 
-const gameAction = new GameAction()
+const gameAction = GameAction.getInstance()
+gameAction.init()
 startBtn.addEventListener('click', () => {
   // 初期化
   gameAction.init()
   // start
   gameAction.start()
-  GameState.switchPhase('start')
+  // フェーズ変更
+  GameAction.switchPhase('start')
 })
 // typing
 document.addEventListener('keypress',  function(event) {
@@ -110,5 +126,6 @@ document.addEventListener('keypress',  function(event) {
 // reset
 resetBtn.addEventListener('click', () => {
   gameAction.reset()
-  GameState.switchPhase('restart')
+  // フェーズ変更
+  GameAction.switchPhase('restart')
 })

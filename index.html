@@ -10,7 +10,10 @@
 </head>
 <body>
 <header class="py-2 px-4 bg-blue-400">
-	<h1 class="text-white text-2xl">TypingGame</h1>
+	<div class="text-white flex justify-between items-end">
+		<h1 class="text-2xl">TypingGame</h1>
+		<p>残り時間 <span id="timer"></span>秒</p>
+	</div>
 </header>
 <main class="py-20">
 	<div class="mx-auto container">
@@ -45,6 +48,6 @@
 	<small class="text-white">&copy;2020 iwata</small>
 </footer>
 <!--<script src="js/index.js"></script>-->
-<script src="js/main.js"></script>
+<script type="module" src="dist/main.js"></script>
 </body>
 </html>
